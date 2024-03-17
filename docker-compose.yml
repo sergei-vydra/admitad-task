@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15.1
+    environment:
+      - POSTGRES_USER=pg
+      - POSTGRES_DB=db
+      - POSTGRES_HOST=127.0.0.1
+      - POSTGRES_PASSWORD=password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    env_file: [ .env ]
+    ports: [ "6669:6669" ]
+    command: -p 6669
+    networks: [ db_network ]
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.0.8
+    env_file: [ .env ]
+    ports: [ "6379:6379" ]
+    networks: [ redis_network ]
+
+  api:
+    build:
+      context: ./
+    image: admitad
+    env_file: [ .env ]
+    ports: [ "9996:9996" ]
+    volumes:
+      - ./:/api
+    command: python manage.py runserver 0.0.0.0:9996
+    networks: [ api_network, db_network, redis_network ]
+    depends_on: [ db, redis ]
+
+#  celery:
+#    image: admitad
+#    volumes:
+#      - ./:/api
+#    env_file: [ .env ]
+#    command: celery -A api worker --concurrency=4 --loglevel=INFO -E --beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
+#    depends_on: [ db, redis ]
+#    networks: [ redis_network, db_network ]
+
+volumes:
+  db_volume:
+
+networks:
+  db_network:
+  redis_network:
+  api_network:
