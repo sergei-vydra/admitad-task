@@ -16,4 +16,4 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        exclude = ("created_at",)
+        exclude = ("is_done", "created_at")

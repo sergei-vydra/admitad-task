@@ -1,6 +1,7 @@
-from django.urls import include, path, re_path
-from .views.users import LogoutView, VerifyEmailView
 from dj_rest_auth.views import PasswordResetConfirmView
+from django.urls import include, path, re_path
+
+from .views.users import LogoutView, UserListAPI, VerifyEmailView
 
 urlpatterns = [
     path("logout/", LogoutView.as_view(), name="rest_logout"),
@@ -14,4 +15,5 @@ urlpatterns = [
         name="account_confirm_email",
     ),
     path("registration/", include("dj_rest_auth.registration.urls")),
+    path("users/", UserListAPI.as_view(), name="users"),
 ]
