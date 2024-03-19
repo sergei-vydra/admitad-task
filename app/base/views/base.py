@@ -1,21 +1,16 @@
 from django.db.models import QuerySet
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import permissions
 from rest_framework.filters import SearchFilter
-from rest_framework.mixins import (
-    RetrieveModelMixin,
-    ListModelMixin,
-    CreateModelMixin,
-    DestroyModelMixin,
-    UpdateModelMixin,
-)
+from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin, ListModelMixin, RetrieveModelMixin,
+                                   UpdateModelMixin)
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from rest_framework import permissions
 from app.base.mixins import APIMixin
 from app.base.ordering import OrderingFilterWithSchema
 
-__all__ = ["AbsViewSet", "RLViewSet", "LViewSet", "RViewSet", "CLViewSet", "CLUViewSet", "CDLViewSet"]
+__all__ = ["AbsViewSet", "RLViewSet", "LViewSet", "RViewSet", "CLViewSet", "CLUViewSet", "CDLViewSet", "CDLUViewSet"]
 
 
 class AbsViewSet(APIMixin, GenericViewSet):
@@ -54,4 +49,8 @@ class CLUViewSet(UpdateModelMixin, CLViewSet):
 
 
 class CDLViewSet(CreateModelMixin, DestroyModelMixin, LViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+
+
+class CDLUViewSet(CreateModelMixin, UpdateModelMixin, DestroyModelMixin, LViewSet):
     permission_classes = (permissions.IsAuthenticated,)
