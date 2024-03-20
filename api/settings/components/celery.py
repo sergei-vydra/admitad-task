@@ -1,0 +1,7 @@
+from api import settings
+
+CELERY_BROKER_URL: str = settings.env("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND: str = settings.env("CELERY_RESULT_BACKEND")
+CELERY_TASK_EAGER: int = settings.env.int("CELERY_TASK_EAGER")
+CELERY_REDIS_MAX_CONNECTIONS: int = settings.env.int("CELERY_REDIS_MAX_CONNECTIONS")
+CELERY_BROKER_POOL_LIMIT: int = settings.env.int("CELERY_BROKER_POOL_LIMIT")
