@@ -3,16 +3,16 @@
 API:
 - create (register, confirm, verify) a user;
 - update/get user information (profile);
-- create a notification;
-- update the notification;
-- get a list of all notifications;
-- get a list of actual notifications (not yet completed) ones owned by the user;
-- get a list of actual notifications (not yet completed) ones where the user is a participant;
+- create a reminder;
+- update the reminder;
+- get a list of all reminders;
+- get a list of actual reminders (not yet completed) ones owned by the user;
+- get a list of actual reminders (not yet completed) ones where the user is a participant;
 
 
 Project contains containers:
 - nginx
-- api-service(DRF)
+- api-service(DRF) + admin panel (http://0.0.0.0/admin)
 - postgres
 - redis
 - celery
@@ -29,12 +29,12 @@ To interact with API via swagger, open in browser:
 ```http://0.0.0.0/swagger```
 
 To load fixtures use (in 'api' container):
-```python manage.py loaddata config/fixture.json```
+```python manage.py loaddata config/data/fixture.json```
 
 AdmitadTask project has 2 routers:
 
 - users
-- notifications
+- reminders
 
 **'users'** router uses 'dj-rest-auth' lib. Using the lib helps me develop mostly all users endpoint quickly. But it has
 some issues:
@@ -75,21 +75,21 @@ some issues:
 - /api/v1/users/
     - **GET**
 
-**'notifications'** router. To execute mailing using celery-beat by scheduler.
-Possible to create notification and mark as DONE via PATCH method.
+**'reminders'** router. To execute mailing using celery-beat by scheduler.
+Possible to create reminder and mark as DONE via PATCH method.
 
-**'notifications'** endpoints:
-- /api/v1/notifications/
+**'reminders'** endpoints:
+- /api/v1/reminders/
   - **POST**
   - **GET**
-- /api/v1/notifications/{id}/
+- /api/v1/reminders/{id}/
   - **PUT**
   - **PATCH**
   - **GET**
   - **DELETE**
-- /api/v1/notifications/consist
+- /api/v1/reminders/consist
   - **GET**
-- /api/v1/notifications/own
+- /api/v1/reminders/own
   - **GET**
 
 ## Next project steps:

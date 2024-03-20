@@ -23,7 +23,7 @@ CELERY_TASK_ACKS_LATE = True
 
 app.conf.beat_schedule = {
     "run-every-1-minute": {
-        "task": "app.notifications.tasks.notification_tasks.send_mailings",
+        "task": "app.reminders.tasks.reminder_tasks.send_mailings",
         "schedule": timedelta(minutes=1),
     },
 }

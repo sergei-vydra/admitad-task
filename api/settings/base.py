@@ -54,7 +54,7 @@ INSTALLED_APPS: list = [
     # own apps
     "app.base",
     "app.users",
-    "app.notifications",
+    "app.reminders",
 ]
 
 MIDDLEWARE: list = [

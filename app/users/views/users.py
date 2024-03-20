@@ -2,15 +2,14 @@ from dj_rest_auth.registration.views import VerifyEmailView as BaseVerifyEmailVi
 from dj_rest_auth.serializers import UserDetailsSerializer
 from dj_rest_auth.views import LogoutView as BaseLogoutView
 from django.contrib.auth import get_user_model
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.cache import cache_page
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers, status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from rest_framework.response import Response
-
 
 from ..serializers import LogoutSerializer
 
