@@ -24,7 +24,7 @@ class NotificationOwnerListAPI(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return Notification.objects.filter(user=self.request.user)
+        return Notification.objects.filter(user=self.request.user, is_done=False)
 
 
 class NotificationParticipantListAPI(ListAPIView):
@@ -33,4 +33,4 @@ class NotificationParticipantListAPI(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return Notification.objects.filter(recipients__in=[self.request.user])
+        return Notification.objects.filter(recipients__in=[self.request.user], is_done=False)

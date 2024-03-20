@@ -7,6 +7,7 @@ __all__ = ["NotificationSerializer"]
 
 class NotificationSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    is_done = serializers.BooleanField(default=False)
 
     def create(self, validated_data):
         recipients = validated_data.pop("recipients")
@@ -16,4 +17,4 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        exclude = ("is_done", "created_at")
+        exclude = ("created_at",)
