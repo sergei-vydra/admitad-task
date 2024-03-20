@@ -10,7 +10,7 @@ urlpatterns = []
 if settings.USE_BROWSABLE_API:
     urlpatterns += [
         path("__docs__/", SpectacularAPIView.as_view(), name="__docs__"),
-        path("", SpectacularSwaggerView.as_view(url_name="__docs__")),
+        path("swagger", SpectacularSwaggerView.as_view(url_name="__docs__")),
     ]
 
 urlpatterns += [
@@ -21,5 +21,5 @@ urlpatterns += [
 
 
 urlpatterns += i18n_patterns(
-    path("django_admin/", admin.site.urls),
+    path("admin/", admin.site.urls),
 )

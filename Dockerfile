@@ -12,3 +12,5 @@ COPY Pipfile* ./
 RUN pipenv install --deploy --system --ignore-pipfile
 
 COPY . .
+
+RUN chmod +x config/scripts/*.sh

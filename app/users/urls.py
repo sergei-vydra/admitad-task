@@ -15,5 +15,5 @@ urlpatterns = [
         name="account_confirm_email",
     ),
     path("registration/", include("dj_rest_auth.registration.urls")),
-    path("users/", UserListAPI.as_view(), name="users"),
+    path("", UserListAPI.as_view(), name="users"),
 ]
