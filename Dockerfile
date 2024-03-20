@@ -12,8 +12,3 @@ COPY Pipfile* ./
 RUN pipenv install --deploy --system --ignore-pipfile
 
 COPY . .
-
-CMD python manage.py migrate && \
-    python manage.py collectstatic --noinput && \
-    python manage.py sync_admins && \
-    gunicorn api.wsgi -c gunicorn/config.py --timeout 300
