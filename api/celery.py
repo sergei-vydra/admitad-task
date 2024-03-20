@@ -8,8 +8,8 @@ from api import settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "api.settings")
 app = Celery(
     "api",
-    broker=settings.REDIS_URL,
-    backend=settings.REDIS_URL,
+    broker=settings.CELERY_BROKER_URL,
+    backend=settings.CELERY_RESULT_BACKEND,
     broker_connection_retry_on_startup=True,
 )
 app.config_from_object("django.conf:settings", namespace="CELERY")

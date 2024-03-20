@@ -28,7 +28,7 @@ services:
     image: admitad
     env_file: [ .env ]
     ports: [ "8000:8000" ]
-    command: sh -c "python manage.py migrate & python manage.py createsuperuser --no-input & exec gunicorn api.wsgi:application -b 0.0.0.0:8000 --reload --log-level info"
+    command: sh -c "python manage.py migrate & exec gunicorn api.wsgi:application -b 0.0.0.0:8000 --reload --log-level info"
     volumes:
       - ./:/api
     networks: [ api_network, db_network, redis_network ]
@@ -47,7 +47,7 @@ services:
   flower:
     image: mher/flower
     environment:
-      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_BROKER_URL=redis://redis:6379
       - FLOWER_PORT=8001
     ports:
       - "8001:8001"
