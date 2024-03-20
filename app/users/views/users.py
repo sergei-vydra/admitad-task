@@ -7,7 +7,10 @@ from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers, status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework.response import Response
+
 
 from ..serializers import LogoutSerializer
 
@@ -38,6 +41,7 @@ class VerifyEmailView(BaseVerifyEmailView):
         return Response({"detail": _("ok")}, status=status.HTTP_200_OK)
 
 
+@method_decorator(cache_page(60 * 60 * 2, key_prefix="users"), name="get")
 class UserListAPI(ListAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserDetailsSerializer

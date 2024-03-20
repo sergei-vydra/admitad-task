@@ -25,6 +25,7 @@ SITE_NAME: str = env.str("SITE_NAME")
 
 # django
 SECRET_KEY: str = env("SECRET_KEY")
+USE_BROWSABLE_API: bool = env.bool("USE_BROWSABLE_API")
 DEBUG: bool = env("DEBUG")
 TEST: bool = env("TEST")
 
