@@ -91,3 +91,8 @@ Possible to create notification and mark as DONE via PATCH method.
   - **GET**
 - /api/v1/notifications/own
   - **GET**
+
+## Next project steps:
+- Rewrite user creating to send email via celery
+- Add more endpoints (most used) to cache
+- Develop Makefile to use short-command on api-service
