@@ -27,21 +27,32 @@ services:
       context: ./
     image: admitad
     env_file: [ .env ]
-    ports: [ "9996:9996" ]
+    ports: [ "8000:8000" ]
+    command: sh -c "python manage.py migrate & python manage.py createsuperuser --no-input & exec gunicorn api.wsgi:application -b 0.0.0.0:8000 --reload --log-level info"
     volumes:
       - ./:/api
-    command: python manage.py runserver 0.0.0.0:9996
     networks: [ api_network, db_network, redis_network ]
     depends_on: [ db, redis ]
 
-#  celery:
-#    image: admitad
-#    volumes:
-#      - ./:/api
-#    env_file: [ .env ]
-#    command: celery -A api worker --concurrency=4 --loglevel=INFO -E --beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
-#    depends_on: [ db, redis ]
-#    networks: [ redis_network, db_network ]
+  celery:
+    image: admitad
+    restart: always
+    volumes:
+      - ./:/api
+    env_file: [ .env ]
+    command: celery -A api worker --concurrency=4 --loglevel=INFO -E --beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    depends_on: [ api, db, redis ]
+    networks: [ redis_network, db_network ]
+
+  flower:
+    image: mher/flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - FLOWER_PORT=8001
+    ports:
+      - "8001:8001"
+    depends_on: [ celery, db, redis ]
+    networks: [ redis_network, db_network ]
 
 volumes:
   db_volume:

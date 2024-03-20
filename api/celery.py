@@ -21,9 +21,9 @@ CELERY_TASK_TIME_LIMIT = 3600
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_ACKS_LATE = True
 
-# app.conf.beat_schedule = {
-#     "parse_purchases_bcs": {
-#         "task": "app.affiliate_program.tasks.parse_statistics.parse_purchases_bcs",
-#         "schedule": timedelta(seconds=10),
-#     },
-# }
+app.conf.beat_schedule = {
+    "run-every-1-minute": {
+        "task": "app.notifications.tasks.notification_tasks.send_mailings",
+        "schedule": timedelta(minutes=1),
+    },
+}
