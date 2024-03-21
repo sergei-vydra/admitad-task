@@ -23,6 +23,9 @@ Project contains containers:
 ##### GitHub flow: project with issues(https://github.com/users/sergei-vydra/projects/2)
 
 To launch project:
+- use **main** branch of git project:
+```https://github.com/sergei-vydra/admitad-task.git```
+- than
 ```docker compose -f docker-compose.yml up -d```
 
 To interact with API via swagger, open in browser:
