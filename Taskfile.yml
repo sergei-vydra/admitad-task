@@ -1,0 +1,37 @@
+version: '3'
+
+tasks:
+  makemigrations:
+    cmds:
+      - docker-compose exec api python manage.py makemigrations
+    aliases: [ mkm ]
+
+  migrate:
+    cmds:
+      - docker-compose exec api python manage.py migrate
+    aliases: [ m ]
+
+  collectstatic:
+    cmds:
+      - docker-compose exec api python manage.py collectstatic --no-input
+    aliases: [ cs ]
+
+  createsuperuser:
+    cmds:
+      - docker-compose exec api python manage.py createsuperuser --no-input
+    aliases: [ csu ]
+
+  test:
+    cmds:
+      - docker-compose exec api python manage.py test
+    aliases: [ t ]
+
+  loaddata:
+    cmds:
+      - docker-compose exec api python manage.py loaddata config/data/fixture.json
+    aliases: [ ld ]
+
+  restart:
+    cmds:
+      - docker-compose -f docker/dev/docker-compose.dev.yml stop
+      - docker-compose -f docker/dev/docker-compose.dev.yml up -d
