@@ -29,10 +29,10 @@ To interact with API via swagger, open in browser:
 ```http://0.0.0.0/swagger```
 
 To run tests (in 'api' container):
-```python manage.py test```
+```python manage.py test``` or via task ```task t```
 
 To load fixtures use (in 'api' container):
-```python manage.py loaddata config/data/fixture.json```
+```python manage.py loaddata config/data/fixture.json``` or via task ```task ld```
 
 AdmitadTask project has 2 routers:
 
