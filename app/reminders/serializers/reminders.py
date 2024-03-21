@@ -1,20 +1,20 @@
 from rest_framework import serializers
 
-from ..models import Notification
+from ..models import Reminder
 
-__all__ = ["NotificationSerializer"]
+__all__ = ["ReminderSerializer"]
 
 
-class NotificationSerializer(serializers.ModelSerializer):
+class ReminderSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     is_done = serializers.BooleanField(default=False)
 
     def create(self, validated_data):
         recipients = validated_data.pop("recipients")
-        notification = Notification.objects.create(**validated_data)
-        notification.recipients.set(recipients)
-        return notification
+        reminder = Reminder.objects.create(**validated_data)
+        reminder.recipients.set(recipients)
+        return reminder
 
     class Meta:
-        model = Notification
+        model = Reminder
         exclude = ("created_at",)

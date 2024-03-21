@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 
-from app.notifications.models import Notification
+from app.reminders.models import Reminder
 
-__all__ = ["NotificationAdmin"]
+__all__ = ["ReminderAdmin"]
 
 
-@admin.register(Notification)
-class NotificationAdmin(ModelAdmin):
+@admin.register(Reminder)
+class ReminderAdmin(ModelAdmin):
     list_filter = ("title",)
     list_display = ("title", "user", "execute_at")
     ordering = ("user",)

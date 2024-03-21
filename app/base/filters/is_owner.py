@@ -1,6 +1,6 @@
 from rest_framework import filters
 
-__all__ = ["IsOwnerFilterBackend", "IsBelongNotificationFilterBackend"]
+__all__ = ["IsOwnerFilterBackend", "IsBelongReminderFilterBackend"]
 
 
 class IsOwnerFilterBackend(filters.BaseFilterBackend):
@@ -12,7 +12,7 @@ class IsOwnerFilterBackend(filters.BaseFilterBackend):
         return queryset.filter(user=request.user)
 
 
-class IsBelongNotificationFilterBackend(filters.BaseFilterBackend):
+class IsBelongReminderFilterBackend(filters.BaseFilterBackend):
     """
     Filter that only allows users to see their own objects.
     """
