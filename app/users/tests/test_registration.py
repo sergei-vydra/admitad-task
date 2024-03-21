@@ -1,11 +1,11 @@
 import random
 
 import factory
+from allauth.account.models import EmailAddress
 from django.contrib.auth import get_user_model
 from django.test import override_settings
 from django.urls import reverse
 from parameterized import parameterized
-from allauth.account.models import EmailAddress
 
 from .base import BaseTestCase
 from .factories import UserLoginFactory
