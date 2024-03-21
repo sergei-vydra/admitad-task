@@ -9,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     DJANGO_SETTINGS_MODULE=api.settings
 
 COPY Pipfile* ./
-RUN pipenv install --deploy --system --ignore-pipfile
+RUN pipenv install -d --deploy --system --ignore-pipfile
 
 COPY . .
 

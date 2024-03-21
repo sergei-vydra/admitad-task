@@ -3,8 +3,10 @@ from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import AuthUser
 
 
-def get_user(email: str, password: str) -> AuthUser:
-    return get_user_model().objects.create_user(email=email, password=password)
+def get_user(username: str, email: str, password: str) -> AuthUser:
+    user = get_user_model().objects.create_user(username=username, email=email, password=password)
+    user.emailaddress_set.create(user=user, email=user.email, verified=True)
+    return user
 
 
 def get_api_client(access_token: str) -> APIClient:

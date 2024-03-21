@@ -28,6 +28,9 @@ To launch project:
 To interact with API via swagger, open in browser:
 ```http://0.0.0.0/swagger```
 
+To run tests (in 'api' container):
+```python manage.py tests```
+
 To load fixtures use (in 'api' container):
 ```python manage.py loaddata config/data/fixture.json```
 
@@ -96,3 +99,4 @@ Possible to create reminder and mark as DONE via PATCH method.
 - Rewrite user creating to send email via celery
 - Add more endpoints (most used) to cache
 - Develop Makefile to use short-command on api-service
+- Write more tests

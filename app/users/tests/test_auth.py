@@ -25,19 +25,19 @@ class AuthTestCase(BaseTestCase):
         self.assertIn("access", response.data)
         self.assertIn("refresh", response.data)
         self.assertIn("user", response.data)
-        self.assertEqual(len(response.data.get("user")), 4)
+        self.assertEqual(len(response.data.get("user")), 5)
 
     def test_login_email_failed(self):
         self.user = get_user(**self.user_data)
         user_data = copy(self.user_data)
         user_data["username"] = f"{random.randint(1000, 9999)}{self.user_data.get('username')}"
         response = self.client.post(self.url, user_data, format="json")
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 400)
 
         user_data = copy(self.user_data)
         user_data["password"] = f"{random.randint(1000, 9999)}{self.user_data.get('password')}"
         response = self.client.post(self.url, user_data, format="json")
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 400)
 
     @parameterized.expand([({}, 400), ({"username": ""}, 400)])
     def test_login_not_valid_email(self, user_data, code):
@@ -58,17 +58,17 @@ class AuthTestCase(BaseTestCase):
         user_data = copy(self.user_data)
         user_data["password"] = "123"
         response = self.client.post(self.url, user_data, format="json")
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 400)
 
         user_data = copy(self.user_data)
         user_data["password"] = "12345678"
         response = self.client.post(self.url, user_data, format="json")
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 400)
 
         user_data = copy(self.user_data)
         user_data["password"] = "Sojdlg123aljg"
         response = self.client.post(self.url, user_data, format="json")
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 400)
 
     def test_logout_successful(self):
         self.user = get_user(**self.user_data)
