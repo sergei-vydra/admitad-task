@@ -1,0 +1,80 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:1.25.3
+    restart: on-failure
+    ports: [ "80:80" ]
+    volumes:
+      - static_volume:/data/static
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks: [ nginx_network ]
+    depends_on: [ api ]
+
+  api:
+    build:
+      context: ./
+    image: admitad
+    env_file: [ .env ]
+    entrypoint: config/scripts/entrypoint.sh
+    volumes:
+      - ./:/api
+      - static_volume:/api/static
+    networks: [ nginx_network, db_network, redis_network ]
+    depends_on: [ db, redis ]
+
+  db:
+    image: postgres:15.1
+    environment:
+      - POSTGRES_USER=pg
+      - POSTGRES_DB=admitaddb
+      - POSTGRES_HOST=127.0.0.1
+      - POSTGRES_PASSWORD=password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    env_file: [ .env ]
+    ports: [ "5432:5432" ]
+    command: -p 5432
+    networks: [ db_network ]
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U pg -d admitaddb'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.0.8
+    env_file: [ .env ]
+    ports: [ "6379:6379" ]
+    networks: [ redis_network ]
+
+  celery:
+    image: admitad
+    restart: on-failure
+    volumes:
+      - ./:/api
+    env_file: [ .env ]
+    command: celery -A api worker --concurrency=4 --loglevel=INFO -E --beat --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    depends_on: [ api, db, redis ]
+    networks: [ redis_network, db_network ]
+
+  flower:
+    image: mher/flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379
+      - FLOWER_PORT=8001
+    ports:
+      - "8001:8001"
+    depends_on: [ celery, db, redis ]
+    networks: [ redis_network ]
+
+volumes:
+  static_volume:
+  db_volume:
+
+networks:
+  nginx_network:
+  db_network:
+  redis_network:
