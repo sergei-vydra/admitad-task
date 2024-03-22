@@ -30,8 +30,10 @@ class SendMailingsTaskTestCase(BaseTestCase):
         return reminder_data
 
     def test_apply_send_mailings_successfully(self):
+        task1 = send_mailings.s().apply()
+        self.assertEqual(task1.state, "SUCCESS")
         reminder_data = self.get_reminder_data()
         reminder_data["executed_at"] = timezone.now()
         self.api_client.post(self.url, reminder_data, format="json")
-        task = send_mailings.s().apply()
-        self.assertEqual(task.state, "SUCCESS")
+        task2 = send_mailings.s().apply()
+        self.assertEqual(task2.state, "SUCCESS")
