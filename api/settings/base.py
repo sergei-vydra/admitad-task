@@ -1,5 +1,5 @@
 import os
-
+import sentry_sdk
 import environ
 
 env: environ.Env = environ.Env(
@@ -28,6 +28,12 @@ SECRET_KEY: str = env("SECRET_KEY")
 USE_BROWSABLE_API: bool = env.bool("USE_BROWSABLE_API")
 DEBUG: bool = env("DEBUG")
 TEST: bool = env("TEST")
+
+sentry_sdk.init(
+    dsn=env("SENTRY_URL"),
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0,
+)
 
 INSTALLED_APPS: list = [
     "django.contrib.admin",
