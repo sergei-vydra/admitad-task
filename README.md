@@ -20,6 +20,7 @@ Project contains containers:
 
 ##### To speed up the time of the code and api-service using ORJSONParser, Cache(Redis), Nginx, gunicorn
 ##### For secure part using JWT, filters, permissions.
+##### To monitoring errors using Sentry service.
 ##### GitHub flow: project with issues(https://github.com/users/sergei-vydra/projects/2)
 
 To launch project:
@@ -101,6 +102,5 @@ Possible to create reminder and mark as DONE via PATCH method.
 ## Next project steps:
 - Rewrite user creating to send email via celery
 - Add more endpoints (most used) to cache
-- Develop Makefile to use short-command on api-service
 - Write more tests
 - Fix code (add validators etc.)
